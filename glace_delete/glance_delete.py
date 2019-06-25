@@ -33,14 +33,14 @@ def connect(node):
     ssh_newkey = 'Are you sure you want'
     refused = 'Connection refused'
     child = pexpect.spawn("ssh -o StrictHostKeyChecking=no ceeadm@%s" % details[node]['cic_vip'])
-    response = child.expect([pexpect.TIMEOUT, ssh_newkey, '[P|p]assword', refused])
-    if response == 0:
+    response = child.expect([pexpect.TIMEOUT, ssh_newkey, pexpect.EOF, '[P|p]assword', refused])
+    if response == 0 or response == 2:
         logging.info("Failed at ssh status : Error connecting")
         return
     elif response == 1:
         child.sendline('yes')
-        result = child.expect([pexpect.TIMEOUT, '[P|p]assword'])
-        if result == 0:
+        result = child.expect([pexpect.TIMEOUT, pexpect.EOF, '[P|p]assword'])
+        if result == 0 or result == 1:
             logging.info('Error while connecting after entering yes to RSA prompt')
             return
     child.sendline(details[node]['Password'])
@@ -137,7 +137,7 @@ def main():
             logging.info("Storage after deleting the images {}".format(storage_after))
             logging.info("Completed deleting unused images ................!")
         else:
-            logging.info("Skipping the cloud {}. Reason: password might have been expired".format(cloud))
+            logging.info("Skipping the cloud {}. Reason: password might have been expired or network issues".format(cloud))
 
 
 if __name__ == '__main__':
