@@ -9,9 +9,7 @@ from datetime import datetime
 p = re.compile("u'(\w+-\w+-\w+-\w+-\w+)'")
 details = yaml.load(open('/root/Virtu/deleteimages/clouds.yaml'))
 scaleio_clouds = ['Merlin', 'Milton', 'Kennedy', 'William','Angelina']
-#scaleio_clouds = ['Merlin', 'Kennedy', 'William', 'Milton', 'Angelina']
 nonscaleio_clouds = ['Nikola', 'Bill', 'Cooper', 'Marilyn', 'Net2', 'Newhope', 'Andromeda', 'Skynet']
-#clouds = ['Andromeda', 'Angelina', 'William', 'Bill', 'Cooper', 'Marilyn', 'Net2', 'Newhope', 'Nikola', 'Skynet', 'Merlin', 'Milton', 'Kennedy']
 clouds = scaleio_clouds + nonscaleio_clouds
 
 def check_time(child, image_id):
